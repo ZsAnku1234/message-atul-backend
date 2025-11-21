@@ -1,15 +1,15 @@
 import type { Request, Response } from "express";
-import { loginUser, registerUser } from "../services/auth.service";
+import { requestOtp as requestOtpService, verifyOtp as verifyOtpService } from "../services/auth.service";
 
-export const register = async (req: Request, res: Response): Promise<void> => {
-  const { email, password, displayName, avatarUrl } = req.body;
-  const result = await registerUser({ email, password, displayName, avatarUrl });
+export const requestOtp = async (req: Request, res: Response): Promise<void> => {
+  const { phoneNumber } = req.body;
+  const result = await requestOtpService({ phoneNumber });
   res.status(201).json(result);
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-  const result = await loginUser({ email, password });
+  const { phoneNumber, code, displayName } = req.body;
+  const result = await verifyOtpService({ phoneNumber, code, displayName });
   res.json(result);
 };
 

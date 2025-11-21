@@ -1,7 +1,15 @@
 import { z } from "zod";
+import { env } from "../config/env";
 
-export const sendMessageSchema = z.object({
-  conversationId: z.string().min(1),
-  content: z.string().min(1),
-  attachments: z.array(z.string().url()).optional()
+const attachmentArray = z.array(z.string().url()).max(env.media.maxAttachmentCount).optional();
+
+export const messageContentSchema = z.object({
+  content: z.string().optional(),
+  attachments: attachmentArray
 });
+
+export const sendMessageSchema = messageContentSchema.extend({
+  conversationId: z.string().min(1)
+});
+
+export const updateMessageSchema = messageContentSchema;

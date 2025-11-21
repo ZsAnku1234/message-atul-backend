@@ -23,7 +23,7 @@ export const authenticate = async (req: Request, _res: Response, next: NextFunct
 
     req.user = {
       id: user.id,
-      email: user.email,
+      phoneNumber: user.phoneNumber,
       displayName: user.displayName
     };
 
